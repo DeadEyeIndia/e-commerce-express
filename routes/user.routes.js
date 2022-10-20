@@ -5,6 +5,8 @@ import {
   signInUser,
   signOutUser,
   getUser,
+  editUserProfile,
+  editUserPassword,
 } from "../controllers/user.controller.js";
 import { isAuthenticatedUser } from "../middleware/authenticate.js";
 
@@ -15,6 +17,10 @@ router.route("/signup").post(signUpUser);
 router.route("/signin").post(signInUser);
 
 router.route("/profile").get(isAuthenticatedUser, getUser);
+
+router.route("/profile/edit").put(isAuthenticatedUser, editUserProfile);
+
+router.route("/password/edit").put(isAuthenticatedUser, editUserPassword);
 
 router.route("/signout").get(isAuthenticatedUser, signOutUser);
 

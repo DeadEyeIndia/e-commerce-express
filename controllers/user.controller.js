@@ -77,6 +77,75 @@ export const getUser = async (req, res, next) => {
   }
 };
 
+export const editUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.user.id);
+
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.mobile = req.body.mobile;
+
+    await user.save({ validateModifiedOnly: true });
+
+    res.status(201).send({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
+export const editUserPassword = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("+password");
+
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+
+    const isPassword = await user.comparePassword(req.body.oldPassword);
+
+    if (!isPassword) {
+      return res.status(401).send({
+        message: "Current password is incorrect",
+      });
+    }
+
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return res.status(406).send({
+        message: "Passwords must match",
+      });
+    }
+
+    if (req.body.oldPassword === req.body.newPassword) {
+      return res.status(406).send({
+        message: "New Password should be different from current password",
+      });
+    }
+
+    user.password = req.body.newPassword;
+
+    await user.save({ validateModifiedOnly: true });
+
+    sendToken(user, 201, res);
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
 export const signOutUser = async (req, res, next) => {
   try {
     res.cookie("token", null, {
