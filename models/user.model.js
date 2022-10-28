@@ -112,7 +112,7 @@ const UserSchema = new mongoose.Schema(
         status: {
           type: String,
           default: "pending",
-          enum: ["pending", "accept", "decline", "onway", "delivered"],
+          enum: ["pending", "accepted", "declined", "onway", "delivered"],
         },
         dates: {
           orderedDate: {
