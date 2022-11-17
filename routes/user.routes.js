@@ -10,6 +10,7 @@ import {
   getCookies,
 } from "../controllers/user.controller.js";
 import { isAuthenticatedUser } from "../middleware/authenticate.js";
+import { authorizedUser } from "../middleware/authorize.js";
 
 const router = express.Router();
 
@@ -19,7 +20,9 @@ router.route("/signup").post(signUpUser);
 
 router.route("/signin").post(signInUser);
 
-router.route("/profile").get(isAuthenticatedUser, getUser);
+router
+  .route("/profile")
+  .get(isAuthenticatedUser, authorizedUser("user"), getUser);
 
 router.route("/profile/edit").put(isAuthenticatedUser, editUserProfile);
 
