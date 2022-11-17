@@ -1,11 +1,15 @@
 import User from "../models/user.model.js";
 import sendToken from "../utils/jwtToken.js";
 
+export const getCookies = async (req, res) => {
+  await res.send(req.cookies);
+};
+
 export const signUpUser = async (req, res, next) => {
   try {
-    const { name, email, mobile, password, confirm } = req.body;
+    const { name, email, mobile, password, confirmPassword } = req.body;
 
-    if (password !== confirm) {
+    if (password !== confirmPassword) {
       return res.status(406).send({
         message: "Passwords does not match",
       });

@@ -7,10 +7,13 @@ import {
   getUser,
   editUserProfile,
   editUserPassword,
+  getCookies,
 } from "../controllers/user.controller.js";
 import { isAuthenticatedUser } from "../middleware/authenticate.js";
 
 const router = express.Router();
+
+router.route("/cookies").get(getCookies);
 
 router.route("/signup").post(signUpUser);
 

@@ -142,7 +142,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },
@@ -161,7 +160,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.methods.getJWTToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
+    expiresIn: "6h",
   });
 };
 
