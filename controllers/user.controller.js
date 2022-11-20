@@ -83,19 +83,17 @@ export const getUser = async (req, res, next) => {
 
 export const editUserProfile = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(req.user.id);
+    const editUserData = {
+      name: req.body.name,
+      email: req.body.email,
+      mobile: req.body.mobile,
+    };
 
-    if (!user) {
-      return res.status(404).send({
-        message: "User not found",
-      });
-    }
-
-    user.name = req.body.name;
-    user.email = req.body.email;
-    user.mobile = req.body.mobile;
-
-    await user.save({ validateModifiedOnly: true });
+    const user = await User.findByIdAndUpdate(req.user.id, editUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
 
     res.status(201).send({
       success: true,
