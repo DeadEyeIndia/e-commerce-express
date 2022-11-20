@@ -36,18 +36,16 @@ const SellerSchema = new mongoose.Schema(
       },
       unique: [true, "Number already taken"],
     },
-    details: {
-      description: {
-        type: String,
-        required: [true, "Description is required"],
-        minlength: [5, "Description is too short"],
-        maxlength: [120, "Description is too long"],
-        trim: true,
-      },
-      about: {
-        type: String,
-        required: [true, "About Seller is required"],
-      },
+    description: {
+      type: String,
+      required: [true, "Description is required"],
+      minlength: [5, "Description is too short"],
+      maxlength: [120, "Description is too long"],
+      trim: true,
+    },
+    about: {
+      type: String,
+      required: [true, "About Seller is required"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
