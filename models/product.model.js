@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import validator from "validator";
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -14,7 +13,7 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Need product description"],
       minlength: [5, "Name is too short"],
-      maxlength: [64, "Name is too long"],
+      maxlength: [256, "Name is too long"],
       trim: true,
     },
     category: {
@@ -26,13 +25,23 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Brand is required"],
     },
+    images: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     color: {
       type: String,
       required: true,
     },
-    size: [
+    variations: [
       {
-        details: {
+        price: {
+          type: String,
+          required: true,
+        },
+        size: {
           type: String,
           required: true,
         },
@@ -86,5 +95,20 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+ProductSchema.path("variations").validate(function (sizes) {
+  if (!sizes) return false;
+  else if (sizes.length === 0) return false;
+
+  return true;
+}, "Product should have at least one variation");
+
+ProductSchema.path("features").validate(function (features) {
+  if (!features) return false;
+  else if (features.length === 0) return false;
+  else if (features.length < 2) return false;
+
+  return true;
+}, "Product should have more than 2 features");
 
 export default mongoose.model("Product", ProductSchema);
