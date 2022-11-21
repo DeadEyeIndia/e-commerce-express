@@ -3,7 +3,7 @@ import validator from "validator";
 
 const SellerSchema = new mongoose.Schema(
   {
-    name: {
+    businessname: {
       type: String,
       required: [true, "Enter required fields"],
       minlength: [5, "Name is too short"],
