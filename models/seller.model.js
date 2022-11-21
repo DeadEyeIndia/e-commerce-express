@@ -36,6 +36,17 @@ const SellerSchema = new mongoose.Schema(
       },
       unique: [true, "Number already taken"],
     },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "Clothing",
+        "Computer & accessories",
+        "Electronics",
+        "Footwear",
+        "Watches",
+      ],
+    },
     description: {
       type: String,
       required: [true, "Description is required"],
