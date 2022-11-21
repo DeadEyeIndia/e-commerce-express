@@ -19,6 +19,8 @@ export const newSeller = async (req, res, next) => {
     }
 
     req.body.user = req.user.id;
+    req.body.email = req.user.email;
+    req.body.mobile = req.user.mobile;
 
     const newSeller = await Seller.create(req.body);
 
