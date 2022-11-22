@@ -14,6 +14,7 @@ import {
   deleteSellerProductforSeller,
   allProducts,
   createReviewOnProductforUser,
+  getAllReviewsOfProduct,
 } from "../controllers/product.controller.js";
 
 const router = express.Router();
@@ -90,5 +91,8 @@ router
     authorizedUser("user"),
     createReviewOnProductforUser
   );
+
+// Get All Reviews of Product for unauthorized User also
+router.route("/product/reviews").get(getAllReviewsOfProduct);
 
 export default router;

@@ -211,3 +211,27 @@ export const createReviewOnProductforUser = async (req, res, next) => {
     });
   }
 };
+
+// Get All Reviews of Product
+export const getAllReviewsOfProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.query.id);
+
+    if (!product) {
+      return res.status(404).send({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      reviews: product.reviews,
+    });
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
