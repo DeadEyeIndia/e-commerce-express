@@ -3,7 +3,7 @@ import validator from "validator";
 
 const SellerSchema = new mongoose.Schema(
   {
-    name: {
+    businessname: {
       type: String,
       required: [true, "Enter required fields"],
       minlength: [5, "Name is too short"],
@@ -35,6 +35,17 @@ const SellerSchema = new mongoose.Schema(
         message: (props) => "Invalid number",
       },
       unique: [true, "Number already taken"],
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "Clothing",
+        "Computer & accessories",
+        "Electronics",
+        "Footwear",
+        "Watches",
+      ],
     },
     description: {
       type: String,

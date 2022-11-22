@@ -19,8 +19,20 @@ const ProductSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["Electronics", "Clothing", "Watches", "Footwear"],
+      enum: [
+        "Clothing",
+        "Computer & accessories",
+        "Electronics",
+        "Footwear",
+        "Watches",
+      ],
     },
+    sub_category: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     brand: {
       type: String,
       required: [true, "Brand is required"],
@@ -62,6 +74,10 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    avgRating: {
+      type: Number,
+      default: 0,
+    },
     reviews: [
       {
         user: {
@@ -95,6 +111,13 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+ProductSchema.path("sub_category").validate(function (sub_category) {
+  if (!sub_category) return false;
+  else if (sub_category.length === 0) return false;
+
+  return true;
+}, "Sub-Category field is required");
 
 ProductSchema.path("variations").validate(function (sizes) {
   if (!sizes) return false;
