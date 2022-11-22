@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import database from "./database/config.js";
 import user from "./routes/user.routes.js";
 import seller from "./routes/seller.routes.js";
+import product from "./routes/product.routes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/v1", user);
 app.use("/v1", seller);
+app.use("/v1", product);
 
 app.listen(PORT, () => {
   console.log("Listening ...");
